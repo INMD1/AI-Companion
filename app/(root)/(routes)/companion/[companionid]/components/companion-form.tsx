@@ -1,5 +1,6 @@
 "use client";
 
+import Axios from "axios"
 import { Category, Companioned } from "@prisma/client";
 import { FormProvider, useForm } from "react-hook-form";
 import { Textarea } from "@/components/ui/textarea";
@@ -26,6 +27,7 @@ import {
 } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
 import { Wand2 } from "lucide-react";
+import axios from "axios";
 
 interface CompanionFormPageProps {
   initialData: Companioned | null;
@@ -88,7 +90,17 @@ export const CompanionFrorm = ({
   const isLoading = form.formState.isSubmitting;
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
-    console.log(values);
+   try {
+    if(initialData) {
+      await Axios.patch(`/api/companion/${initialData.id}`, values)
+    }else{
+      await Axios.post("/api/companion", values)
+    }
+     console.log(values);
+   } catch (error) {
+    console.log(error);
+    
+   }
   };
 
   return (
