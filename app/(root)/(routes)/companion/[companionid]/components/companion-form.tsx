@@ -28,6 +28,8 @@ import {
 import { Button } from "@/components/ui/button";
 import { Wand2 } from "lucide-react";
 import axios from "axios";
+import { useToast } from "@/components/ui/use-toast";
+import { useRouter } from "next/navigation";
 
 interface CompanionFormPageProps {
   initialData: Companioned | null;
@@ -47,10 +49,10 @@ const formSchema = z.object({
   seed: z.string().min(200, {
     message: "Seed require at lest 200 characters",
   }),
-  src: z.string().min(200, {
+  src: z.string().min(1, {
     message: "Image is required",
   }),
-  categoryId: z.string().min(200, {
+  categoryId: z.string().min(1, {
     message: "Category is required",
   }),
 });
@@ -75,6 +77,8 @@ export const CompanionFrorm = ({
   categories,
   initialData,
 }: CompanionFormPageProps) => {
+  const router = useRouter();
+  const {toast} = useToast();
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: initialData || {
@@ -97,9 +101,17 @@ export const CompanionFrorm = ({
       await Axios.post("/api/companion", values)
     }
      console.log(values);
+     toast({
+      description: "Succes",
+    });
+    router.refresh();
+    router.push("/");
    } catch (error) {
     console.log(error);
-    
+    toast({
+      variant: "destructive",
+      description: "Something went wrong",
+    });
    }
   };
 

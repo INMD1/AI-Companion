@@ -5,18 +5,16 @@ import { CldUploadButton } from "next-cloudinary"
 import Image from "next/image";
 
 interface ImageUploadProps {
-    value: string;
     onChange: (src: string) => void;
     disabled?: boolean
 }
 
 export const ImageUpload = ({
-    value,
     onChange,
-    disabled
+    disabled,
 } : ImageUploadProps) => {
     const [ isMounted, setIsMounted ] = useState(false);
-
+    const [ value, setValue ] = useState("");
     useEffect(() => {
         setIsMounted(true);
     }, []);
@@ -28,7 +26,10 @@ export const ImageUpload = ({
     return(
         <div className="space-y-4 w-full flex flex-col justify-center items-center">
             <CldUploadButton
-            onUpload={(result: any) => onChange(result.info.secure_url)}
+            onUpload={(result: any) => {
+                setValue(result.info.secure_url);
+                onChange(result.info.secure_url);
+            }}
              options={{
                 maxFiles: 1
              }}
