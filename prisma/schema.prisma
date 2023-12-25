@@ -1,22 +1,22 @@
 generator client {
-    provider = "prisma-client-js"
+    provider        = "prisma-client-js"
     previewFeatures = ["fullTextSearch", "fullTextIndex"]
 }
 
 datasource db {
-    provider = "mysql"
-    url = env("DATABASE_URL")
+    provider     = "mysql"
+    url          = env("DATABASE_URL")
     relationMode = "prisma"
 }
 
 model Category {
-    id String @id @default(uuid())
-    name String
+    id         String        @id @default(uuid())
+    name       String
     companions Companioned[]
 }
 
 model Companioned {
-    id String @id @default(uuid())
+    id           String @id @default(uuid())
     userId       String
     uerName      String
     src          String
@@ -28,9 +28,31 @@ model Companioned {
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
 
-    category Category @relation(fields: [categoryId], references: [id])
+    category   Category @relation(fields: [categoryId], references: [id])
     categoryId String
 
+    messages Message[]
     @@index([categoryId])
+    @@fulltext([name])
 }
 
+enum Role {
+    user
+    system
+}
+
+model Message {
+    id      String @id @default(uuid())
+    role    Role
+    content String @db.Text
+
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    companionId String
+    userId String
+
+    companion Companioned @relation(fields: [companionId], references: [id], onDelete: Cascade)
+
+    @@index([companionId])
+}
