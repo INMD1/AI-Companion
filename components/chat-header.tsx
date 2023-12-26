@@ -4,6 +4,7 @@ import { Companioned, Message } from "@prisma/client"
 import { Button } from "./ui/button";
 import { useRouter } from "next/navigation";
 import { ChevronLeft } from "lucide-react";
+import { BotAvatar } from "./bot-avatar";
 
 interface ChatHeaderProps {
     companion: Companioned & {
@@ -25,6 +26,7 @@ export const ChatHeader = ({
                 <Button onClick={() => router.back()} size="icon" variant="ghost">
                     <ChevronLeft className="h-8 w-8"/>
                 </Button>
+                <BotAvatar src={companion.src}/>
             </div>
         </div>
     )
