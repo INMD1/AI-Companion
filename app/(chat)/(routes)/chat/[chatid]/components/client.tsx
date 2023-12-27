@@ -6,6 +6,7 @@ import { FormEvent, useState } from "react";
 import { useRouter } from "next/navigation";
 import { ChatForm } from "@/components/chat-form";
 import { ChatMessages } from "@/components/chat-messages";
+import { ChatMessageProps } from "@/components/chat-message";
 
 interface ChatClientProps {
     companion : Companioned & {
@@ -45,7 +46,7 @@ export const ChatClient = (
     });
 
     const onSubmit =(e: FormEvent<HTMLFieldSetElement>) => {
-        const userMessage = {
+        const userMessage: ChatMessageProps = {
             role: "user",
             content: input,
         };
