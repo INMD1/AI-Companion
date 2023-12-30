@@ -41,7 +41,7 @@ export const ChatMessages = ({
         isLoading={fackloading}
         src={companion.src}
         role="system"
-        content={`hello, I am ${companion.name}, ${companion.description}`}
+        content={`hello, I am ${companion.name}, ${companion.description} \n\n 그리고 처음이거나 새로들어오는 경우 /start 를 입력해야 해당역할을 정상적으로 부여받을수 있습니다.`}
       />
       {messages.map((message) => (
         <ChatMessage
