@@ -33,7 +33,7 @@ export const ChatClient = ({ companion }: ChatClientProps) => {
         setMessage((current) => [...current, systemMessage]);
         setInput("");
 
-        router.back();
+        // router.back();
       },
     });
 
